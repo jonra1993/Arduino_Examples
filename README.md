@@ -1,37 +1,52 @@
-## Welcome to GitHub Pages
+This repository contains the documentation used to train Robotic club members of Escuela Politécnica Nacional in the use of Arduino board. It includes basic and advance concepts like motors controllers, Timers and serial communication.
 
-You can use the [editor on GitHub](https://github.com/jonra1993/Arduino_Examples/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Bar_Ball_Control
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+It is a project of bar-ball control using a pid. By serial communication users can change setpoint. 
+<br>
 
-### Markdown
+<p align="center">
+  <img height="400" width="800" src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/2016-11-10-14.57.50.jpg">
+</p>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+<p align="center">
+<video width="320" height="240" controls>
+  <source src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/barra-bola.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</p>
 
-```markdown
-Syntax highlighted code block
+## Bluetooth Track
 
-# Header 1
-## Header 2
-### Header 3
+It is a prototype of itrack. It uses bluetooth to conect with an app and through serial communication it detects when the itrack is too far and emit sound. But also by serial communication people can sent a signal to change color led and play alarms.
+<br>
 
-- Bulleted
-- List
+<p align="center">
+  <img height="400" width="800" src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/2016-11-15-21.20.55.jpg">
+</p>
 
-1. Numbered
-2. List
+<p align="center">
+<video width="320" height="240" controls>
+  <source src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/itrack.mp4">
+Your browser does not support the video tag.
+</video>
+</p>
 
-**Bold** and _Italic_ and `Code` text
+## PID temperature Control
 
-[Link](url) and ![Image](src)
-```
+It is an arduino program for controlling temperature it uses a PID control there is as actuator a light bulb and a fan. Set point can be controlled by serial port.
+<br>
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Spyder Robot Dancing
 
-### Jekyll Themes
+It is a program using arduino and servomotors.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jonra1993/Arduino_Examples/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+- **[MIT license](http://opensource.org/licenses/mit-license.php)**
+- Copyright 2019 © <a href="https://www.jonathanvargas.ml" target="_blank">Jonathan Vargas</a>.
+
