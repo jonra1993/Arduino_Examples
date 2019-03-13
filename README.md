@@ -18,7 +18,7 @@ It is a prototype of itrack. It uses bluetooth to conect with an app and through
 <br>
 
 <p align="center">
-  <img height="480" width="480" src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/2016-11-15-21.20.55.jpg">
+  <img height="320" width="480" src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/2016-11-15-21.20.55.jpg">
 </p>
 
 <p align="center">
