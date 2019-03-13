@@ -1,4 +1,4 @@
-This repository contains the documentation used to train Robotic club members of Escuela Politécnica Nacional in the use of Arduino board. It includes basic and advance concepts like motors controllers, Timers and serial communication.
+In this repository there are some implemented projects.
 
 ## Bar_Ball_Control
 
