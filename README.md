@@ -6,7 +6,7 @@ It is a project of bar-ball control using a pid. By serial communication users c
 <br>
 
 <p align="center">
-<video width="640" height="480" controls>
+<video width="100%" controls>
   <source src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/barra-bola.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
