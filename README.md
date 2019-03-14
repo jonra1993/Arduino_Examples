@@ -22,7 +22,7 @@ It is a prototype of itrack. It uses bluetooth to conect with an app and through
 </p>
 
 <p align="center">
-<video width="640" height="480" controls>
+<video width="100%" controls>
   <source src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/itrack.mp4">
 Your browser does not support the video tag.
 </video>
