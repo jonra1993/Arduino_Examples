@@ -1,0 +1,7 @@
+Fuente: https://www.youtube.com/watch?v=46RbGG-nr6c
+
+npm init --yes  //crea package json
+npm install serialport --save   //instala librería serialport y guarda en el package
+
+
+node server/index.js    //ejecutar proyecto
