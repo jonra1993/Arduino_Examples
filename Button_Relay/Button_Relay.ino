@@ -18,12 +18,12 @@
 
 //! times pressed (pressing time is 400-600 millis)
 unsigned long upper_press_interval=600;
-unsigned long lower_press_interval=400;
+unsigned long lower_press_interval=100;
 //! times pressed (break between pressing 400-600 millis)
 unsigned long upper_break_interval=600;
-unsigned long lower_break_interval=400;
+unsigned long lower_break_interval=100;
 //! times pressed (break between 2-1-3-4 800-1200 millis)
-unsigned long upper_wait_interval=1200;
+unsigned long upper_wait_interval=1800;
 unsigned long lower_wait_interval=800;
 
 //! variables
@@ -122,19 +122,22 @@ void loop() {
   }
 
  
+  //! Last time without press button
   if(digitalRead(push_button)==HIGH) {
     last_push_time_reset = millis();
   }
 
+  // Reset detection
   if(digitalRead(push_button)==LOW) {
     if((millis() - last_push_time_reset) > reset_interval){
       conta_presses = 0;
       state = 0;
       first_press = true;
       state_change = false;
+      attachInterrupt(digitalPinToInterrupt(push_button), press, FALLING);
       digitalWrite(relay, LOW);
       digitalWrite(no_relay, LOW);
-      attachInterrupt(digitalPinToInterrupt(push_button), press, FALLING);
+      Serial.println("System reseted!");
     }
   }
 }
