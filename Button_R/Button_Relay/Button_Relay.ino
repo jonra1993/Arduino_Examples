@@ -1,7 +1,7 @@
 
 /*************************************************************
  *
- * $Workfile: Bluetooth_Relay.ino $
+ * $Workfile: Button_Relay.ino $
  *
  * $Creator: Jonathan Vargas $
  *
@@ -14,7 +14,8 @@
 //! definitions
 #define push_button 2
 #define relay 9
-#define no_relay 10
+#define wrong_led 10
+#define correct_led 11
 
 //! times pressed (pressing time is 400-600 millis)
 unsigned long upper_press_interval=600;
@@ -60,7 +61,12 @@ volatile bool reset_memory = false;
 void setup() {
   pinMode(push_button,INPUT_PULLUP);
   pinMode(relay,OUTPUT);
-  pinMode(no_relay,OUTPUT);
+  pinMode(wrong_led,OUTPUT);
+  pinMode(correct_led,OUTPUT);
+
+  digitalWrite(relay, HIGH);
+  digitalWrite(wrong_led, LOW);
+  digitalWrite(correct_led, LOW);
 
   //! Configure pin interrupt
   attachInterrupt(digitalPinToInterrupt(push_button), press, FALLING); //FALLING / RISING
@@ -107,8 +113,8 @@ void loop() {
       break; 
     
     case 4:
-      digitalWrite(relay, HIGH);
-      digitalWrite(no_relay, LOW);
+      digitalWrite(relay, LOW);
+      digitalWrite(correct_led, HIGH);
       Serial.println("Correct sequence :)");
       Serial.println(" Press button for more than 2000 ms to reset system ");
 
@@ -118,8 +124,7 @@ void loop() {
 
     case 5:
       if(conta_presses == 10) {
-        digitalWrite(relay, LOW);
-        digitalWrite(no_relay, HIGH);
+        digitalWrite(wrong_led, HIGH);
         Serial.println(" Incorrect sequence :( ");
         Serial.println(" Press button for more than 2000 ms to reset system ");
         state = 7;
@@ -253,8 +258,8 @@ void reset() {
   first_press = true;
   state_change = false;
   attachInterrupt(digitalPinToInterrupt(push_button), press, FALLING);
-  digitalWrite(relay, LOW);
-  digitalWrite(no_relay, LOW);
+  digitalWrite(correct_led, LOW);
+  digitalWrite(wrong_led, LOW);
   Serial.println("System reseted!");
 }
 
