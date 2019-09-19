@@ -54,7 +54,9 @@ void setup() {
   pinMode(SIGNAL, OUTPUT);
   digitalWrite(SIGNAL, HIGH);
   delay(1000);
-  player.loop(song_number);
+  player.stop(); 
+
+  
 }
 
 /***************************************************************************
@@ -72,12 +74,12 @@ void loop() {
       }                
       //Compare actual UID with tag
       if(compareArray(actual_UID,tag1)){
-        player.stop(); 
+        player.loop(song_number);
         digitalWrite(SIGNAL, LOW);
       }
       //Compare actual UID with tag
       if(compareArray(actual_UID,tag2)){
-        player.stop(); 
+        player.loop(song_number);
         digitalWrite(SIGNAL, LOW);
       }
       //! Finish communication wirh RFID
