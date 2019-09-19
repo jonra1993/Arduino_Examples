@@ -1,0 +1,7 @@
+{
+    "board": "arduino:avr:nano",
+    "programmer": "AVRISP mkII",
+    "sketch": "Photosensor2.ino",
+    "configuration": "cpu=atmega328old",
+    "port": "/dev/cu.usbserial-1410"
+}
