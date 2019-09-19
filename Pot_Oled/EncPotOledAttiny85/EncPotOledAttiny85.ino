@@ -10,6 +10,7 @@
 //! Include libraries
 #include <EEPROM.h>
 #include <Tiny4kOLED.h>
+#include "font11x16.h"
 
 //! sensorValue eeprom address
 int encCounterAddress = 0;
@@ -57,8 +58,7 @@ void setup() {
     //encCounter = interval;
     //EEPROM.put(encCounterAddress, 20);
     EEPROM.get( encCounterAddress, encCounterLast );
-    if(encCounterLast == 255) encCounter = 0;
-    else encCounter = encCounterLast;
+    encCounter = encCounterLast;
 
   }
   delay(500);
@@ -104,7 +104,7 @@ void updateDisplay(float number) {
   // usage: oled.setCursor(X IN PIXELS, Y IN ROWS OF 8 PIXELS STARTING WITH 0);
   oled.setCursor(0, 1);
   // Write text to oled RAM (which is not currently being displayed).
-  oled.print(F("value: "));
+  oled.print(F(" "));
   // Write the number of milliseconds since power on.
   oled.print(number);
   // Swap which half of RAM is being written to, and which half is being displayed.
@@ -158,7 +158,8 @@ void initOled()
 {
   //! Send the initialization sequence to the oled. This leaves the display turned off
   oled.begin();
-  oled.setFont(FONT8X16);
+  oled.setFont(FONT11X16);
+  //oled.setFont(FONT8X16);
   //! Clear the memory before turning on the display
   oled.clear();
   //! Turn on the display

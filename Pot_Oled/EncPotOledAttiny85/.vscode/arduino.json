@@ -1,7 +1,7 @@
 {
-    "programmer": "AVRISP mkII",
-    "board": "arduino:avr:nano",
-    "configuration": "cpu=atmega328old",
-    "port": "/dev/cu.usbserial-1410",
-    "sketch": "EncPotOled2.ino"
+    "board": "attiny:avr:ATtinyX5",
+    "configuration": "cpu=attiny85,clock=internal8",
+    "programmer": "Arduino as ISP",
+    "port": "/dev/cu.usbmodem1A1201",
+    "sketch": "EncPotOledAttiny85.ino"
 }
