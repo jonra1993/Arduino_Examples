@@ -1,0 +1,7 @@
+{
+    "programmer": "AVRISP mkII",
+    "board": "arduino:avr:nano",
+    "configuration": "cpu=atmega328old",
+    "sketch": "Hall_Sec/Hall_Sec.ino",
+    "port": "/dev/tty.usbserial-1410"
+}

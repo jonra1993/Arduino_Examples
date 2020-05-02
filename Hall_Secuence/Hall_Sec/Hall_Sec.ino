@@ -7,6 +7,7 @@
  * Date: 16/04/2019
  * Description:  Hall sequence and leds
  * 
+ * https://github.com/MajicDesigns/MD_YX5300/blob/master/examples/MD_YX5300_Test/MD_YX5300_Test.ino
  ***********************************************************************************/
 
 /******************************************************************************
@@ -50,15 +51,18 @@ const uint8_t numberSeq = 3;
 bool hallState = false;    // current state of the hall sensor
 bool lastHallState = false; // previous state of the hall sensor
 long startDetection = 0L;   
+long startMusic = 0L;   
 long endDetection = 0L;      
 long timeHold = 0L;        // the time in which hall sensor detected magnet
 long timeReleased = 0L;    // the time in which hall sensor did not detect magnet
 bool musicOn = false;
+bool trigger = false;
 
 //! Threshold for analog hall sensor
-int minThreshold = 0;
+int minThreshold = 100;
 int maxThreshold = 500;
-
+//! Time while playing
+int timeWhilePlaying = 4;  // time in seconds in which sound last
 //! secuence
 int valid_time_interval = 2 ;  // time in which user should keep magnet
 
@@ -108,6 +112,7 @@ void setup() {
 		Serial.println("==============================");
 	#endif
 
+	pinMode(13,OUTPUT);
 	// Leds Initialization
 	for (int i = 0; i < maxLeds; i++) {
 		pinMode(LEDS[i],OUTPUT);
@@ -118,7 +123,8 @@ void setup() {
   catalex.begin(9600);//Start our Serial coms for THE MP3
   delay(500);
   SendCommand(CMD_SEL_DEV, DEV_TF);//select the TF card  
-  delay(200);	
+  SendCommand(STOP_PLAY,0X0000);
+  delay(1000);	
 
 }
 
@@ -138,21 +144,25 @@ void loop() {
       hallAnalog = analogRead(HALL_SENSOR);
       hallState = ValidateMeasure(hallAnalog, maxThreshold, minThreshold);
       if (hallState != lastHallState) { // hall state changed
-        updateState(hallState, startDetection, endDetection, timeHold, timeReleased, valid_time_interval);
+        if(hallState == true){
+          endDetection = millis();
+          trigger = true;
+        } 
+        lastHallState = hallState;
+
       }
-      lastHallState = hallState;
-      if(counter >= numberSeq){
-        state = 3;
-      }
+      updateState(hallState, startDetection, endDetection, timeHold, timeReleased, valid_time_interval);
       break;
     case 1:
-      Sequence1();
+      Sequence3();
+      state = 2;
+      #if DEBUG == true
+        Serial.println("Go to idle state..");
+      #endif
       break; 
     case 2:
-      Sequence2();
       break;
     case 3:
-      Sequence3();
       break;
     default:
       break; 
@@ -211,17 +221,47 @@ void Sequence2()
 void Sequence3()
 {
   #if DEBUG == true
-    Serial.println("Led Sequence 3: ");
+  Serial.println("Led Sequence 3: ");
   #endif
   digitalWrite(LEDS[0], HIGH);
+  delay(1000);
+  digitalWrite(LEDS[0], LOW);
+  delay(500);
+  digitalWrite(LEDS[1], HIGH);
+  delay(1000);
   digitalWrite(LEDS[1], LOW);
+  delay(500);
   digitalWrite(LEDS[2], HIGH);
+  delay(1000);
+  digitalWrite(LEDS[2], LOW);
+  delay(500);
+  digitalWrite(LEDS[3], HIGH);
+  delay(1000);
   digitalWrite(LEDS[3], LOW);
   delay(500);
+  digitalWrite(LEDS[0], HIGH);
+  delay(1000);
   digitalWrite(LEDS[0], LOW);
+  delay(500);
   digitalWrite(LEDS[1], HIGH);
+  delay(1000);
+  digitalWrite(LEDS[1], LOW);
+  delay(500);
+  digitalWrite(LEDS[2], HIGH);
+  delay(1000);
   digitalWrite(LEDS[2], LOW);
+  delay(500);
   digitalWrite(LEDS[3], HIGH);
+  delay(1000);
+  digitalWrite(LEDS[3], LOW);
+  delay(500);
+  digitalWrite(LEDS[0], HIGH);
+  delay(1000);
+  digitalWrite(LEDS[0], LOW);
+  delay(500);
+  digitalWrite(LEDS[1], HIGH);
+  delay(1000);
+  digitalWrite(LEDS[1], LOW);
   delay(500);
 }
 
@@ -238,16 +278,18 @@ bool ValidateMeasure(int measure, int max, int min)
   if((measure>min) && (measure<max)){
     state = true;
   }
-  // // #if DEBUG == true
-  // //   Serial.print("State: ");
-  // //   Serial.print(state);
-  // //   Serial.print(" --> Hall Value: ");
-  // //   Serial.print(measure);
-  // //   Serial.print(" --> Max Limit: ");
-  // //   Serial.print(max);
-  // //   Serial.print(" --> Min Limit: ");
-  // //   Serial.println(min);
-  // // #endif
+  #if DEBUG == true
+    Serial.print("Counter: ");
+    Serial.print(counter);
+    Serial.print(" --> State: ");
+    Serial.print(state);
+    Serial.print(" --> Hall Value: ");
+    Serial.print(measure);
+    Serial.print(" --> Max Limit: ");
+    Serial.print(max);
+    Serial.print(" --> Min Limit: ");
+    Serial.println(min);
+  #endif
   return state;
 }
 
@@ -292,39 +334,40 @@ void updateState( int hallState,
                   long &timeReleased,
                   int validTime) {
 
-  // the magnet was just located
-  if (hallState == true) {
-    startDetection = millis();
-    timeReleased = startDetection - endDetection;
-  	if(musicOn==false){
-      SendCommand(CMD_PLAY_WITHVOLUME, 0x1E01);
-      musicOn = true;
-		} 
-    #if DEBUG == true
-      Serial.print("Sensor was idle for ");
-      Serial.print(timeReleased);
-      Serial.println(" [ms]");
-    #endif
+
+  if(musicOn == true){
+    if(millis()-startMusic>(long)(timeWhilePlaying*1000)){
+      SendCommand(STOP_PLAY,0X0000);
+      digitalWrite(13, LOW); 
+      musicOn = false;
+      if(counter >= numberSeq){
+        state = 1;
+      }
+    }
   }
-  // the magnet was just released 
-  else {
-    endDetection = millis();
-    timeHold = endDetection - startDetection;
-    musicOn = false;
-		SendCommand(STOP_PLAY,0X0000);
-
-    if(timeHold>(long)(validTime*1000)) counter++;
-    else counter = 0;
-
-    #if DEBUG == true
-      Serial.print("Counter ");
-      Serial.println(counter);
-    #endif
-    #if DEBUG == true
-      Serial.print("Magnet was hold for ");
-      Serial.print(timeHold);
-      Serial.println(" [ms]");
-    #endif
+  else{
+    // the magnet was just located
+    if (hallState == true && trigger == true) {
+      startDetection = millis();
+      timeHold = startDetection - endDetection;
+      if(timeHold>(long)(validTime*1000)){
+        SendCommand(CMD_PLAY_WITHVOLUME, 0x1E01);
+        startMusic = startDetection;
+        musicOn = true;  
+        trigger = false; 
+        digitalWrite(13, HIGH); 
+        counter++;
+        #if DEBUG == true
+          Serial.print("Counter ");
+          Serial.println(counter);
+        #endif
+        #if DEBUG == true
+          Serial.print("Magnet was hold for ");
+          Serial.print(timeHold);
+          Serial.println(" [ms]");
+        #endif
+      } 
+    }
   }
 }
 
