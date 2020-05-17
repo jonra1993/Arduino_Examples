@@ -4,7 +4,7 @@
  * File Name: Hall_Sec.ino 
  * Developer: Jonathan Vargas 
  * Web: www.jonathanvargas.ml
- * Date: 16/04/2019
+ * Date: 16/05/2019
  * Description:  Hall sequence and leds
  * 
  * https://github.com/MajicDesigns/MD_YX5300/blob/master/examples/MD_YX5300_Test/MD_YX5300_Test.ino
@@ -55,6 +55,9 @@ long startMusic = 0L;
 long endDetection = 0L;      
 long timeHold = 0L;        // the time in which hall sensor detected magnet
 long timeReleased = 0L;    // the time in which hall sensor did not detect magnet
+long resetTime = 0L;       //Rest counter
+int seconds = 0;
+int resetSeconds = 60;
 bool musicOn = false;
 bool trigger = false;
 
@@ -161,6 +164,15 @@ void loop() {
       #endif
       break; 
     case 2:
+      if(millis() > resetTime + 1000){
+        resetTime = millis();
+        seconds++;
+        if(seconds >= resetSeconds)
+          seconds = 0;
+          counter = 0;
+          resetLeds();
+          state = 0;
+      }
       break;
     case 3:
       break;
@@ -170,6 +182,23 @@ void loop() {
 
 }
 
+/***************************************************************************
+ *
+ *  resetLeds Function 
+ * 
+ * Description: set leds off
+ *
+ ***************************************************************************/
+void resetLeds()
+{
+  #if DEBUG == true
+    Serial.println("Reset LEDs: ");
+  #endif
+	// Leds Initialization
+	for (int i = 0; i < maxLeds; i++) {
+    digitalWrite(LEDS[i], LOW);
+  }
+}
 /***************************************************************************
  *
  *  Sequence1 Function 
