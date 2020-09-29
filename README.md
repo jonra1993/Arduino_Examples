@@ -7,7 +7,7 @@ It is a project of bar-ball control using a pid. By serial communication users c
 
 <p align="center">
 <video width="100%" controls>
-  <source src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/barra-bola.mp4" type="video/mp4">
+  <source src="https://res.cloudinary.com/dnv0qwkrk/video/upload/v1601398545/wordpress_Jonathan/barra-bola.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 </p>
@@ -18,12 +18,12 @@ It is a prototype of itrack. It uses bluetooth to conect with an app and through
 <br>
 
 <p align="center">
-  <img height="320" width="480" src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/2016-11-15-21.20.55.jpg">
+  <img height="320" width="480" src="https://res.cloudinary.com/dnv0qwkrk/image/upload/v1601398518/wordpress_Jonathan/2016-11-15-21.20.55.jpg">
 </p>
 
 <p align="center">
 <video width="100%" controls>
-  <source src="https://www.jonathanvargas.ml/wp-content/uploads/2019/03/itrack.mp4">
+  <source src="https://res.cloudinary.com/dnv0qwkrk/video/upload/v1601398520/wordpress_Jonathan/itrack.mp4">
 Your browser does not support the video tag.
 </video>
 </p>
